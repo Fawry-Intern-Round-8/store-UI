@@ -7,7 +7,7 @@
           <h5 class="card-title">{{ product.name }}</h5>
           <p class="card-text">{{ product.description }}</p>
           <p class="fw-bold">$ {{ product.price }}</p>
-          <p *ngIf="product.quantity > 0" class="text-success">In Stock: {{ product.quantity }}</p>
+          <p *ngIf="product.quantity > 0" class="text-success">Available: {{ product.quantity }}</p>
           <p *ngIf="product.quantity === 0" class="text-danger fw-bold">Out of Stock</p>
         </div>
       </div>
