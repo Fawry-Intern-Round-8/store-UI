@@ -1,41 +1,87 @@
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-md-5">
-      <div class="card h-100 shadow-lg border-2 border-info">
-        <img [src]="product.image" class="card-img-top" alt="{{ product.name }}">
-        <div class="card-body bg-light text-dark text-center">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">{{ product.description }}</p>
-          <p class="fw-bold">$ {{ product.price }}</p>
-          <p *ngIf="product.quantity > 0" class="text-success">Available: {{ product.quantity }}</p>
-          <p *ngIf="product.quantity === 0" class="text-danger fw-bold">Out of Stock</p>
+<div class="container-fluid py-4 bg-light">
+  <div class="row justify-content-center g-4">
+    <!-- Product Card - Enhanced with hover effects and better spacing -->
+    <div class="col-lg-5 col-xl-4">
+      <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="position-relative">
+          <img [src]="product.imageUrl" class="card-img-top object-fit-cover" alt="{{ product.name }}" style="height: 300px;">
+          <div class="position-absolute top-0 end-0 bg-info px-3 py-1 rounded-bl-3 shadow-sm">
+            <span class="text-white fw-bold">$ {{ product.price }}</span>
+          </div>
+        </div>
+        <div class="card-body bg-white text-center">
+          <h3 class="card-title fw-bold text-gradient text-info">{{ product.name }}</h3>
+          <p class="card-text text-muted mt-3">{{ product.description }}</p>
+          <div class="d-flex justify-content-center gap-2 mt-3">
+            <span class="badge bg-primary bg-opacity-10 text-primary">Popular</span>
+            <span class="badge bg-success bg-opacity-10 text-success">In Stock</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-md-6">
-      <h4>Checkout Form</h4>
-      <form class = "justify-content-center">
-        <div class="mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" class="form-control" required>
+    <!-- Checkout Form - Modern card with better organization -->
+    <div class="col-lg-6 col-xl-5">
+      <div class="card shadow-sm border-0 rounded-4 h-100">
+        <div class="card-header bg-white border-0 py-3 rounded-top-4">
+          <h3 class="mb-0 text-center text-gradient text-primary">Complete Your Purchase</h3>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Card Number</label>
-          <input type="text" class="form-control" required>
+        <div class="card-body p-4">
+          <form (ngSubmit)="confirmOrder()" class="needs-validation" novalidate>
+            <!-- Form Group with Floating Labels -->
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control rounded-3" id="emailInput"
+                     placeholder="name@example.com" required [(ngModel)]="order.customerEmail" name="email">
+              <label for="emailInput">Email address</label>
+              <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control rounded-3" id="cardInput"
+                     placeholder="Card Number" required [(ngModel)]="order.cardNumber" name="cardNumber">
+              <label for="cardInput">Card Number</label>
+              <div class="invalid-feedback">Please enter your card number.</div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="number" class="form-control rounded-3" id="quantityInput"
+                         placeholder="1" min="1" required [(ngModel)]="order.quantity" name="quantity">
+                  <label for="quantityInput">Quantity</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="text" class="form-control rounded-3" id="couponInput"
+                         placeholder="Optional" [(ngModel)]="order.couponCode" name="couponCode">
+                  <label for="couponInput">Coupon Code</label>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 py-3 mt-2 shadow-sm">
+              <i class="bi bi-lock-fill me-2"></i> Confirm Purchase
+            </button>
+          </form>
+
+          <!-- Enhanced Alert Message -->
+          <div class="mt-4">
+            <div *ngIf="msg" class="alert alert-dismissible fade show rounded-3"
+                 [ngClass]="{
+                   'alert-success': msg === 'success',
+                   'alert-danger': msg !== 'success'
+                 }" role="alert">
+              <div class="d-flex align-items-center">
+                <i class="bi me-2" [class.bi-check-circle-fill]="msg === 'success'"
+                   [class.bi-exclamation-triangle-fill]="msg !== 'success'"></i>
+                <span class="fw-medium">{{ msg | uppercase }}</span>
+              </div>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">
-            Quantity
-          </label>
-          <input type="text" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Coupon Code (Optional)</label>
-          <input type="text" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success">Confirm Purchase</button>
-      </form>
+      </div>
     </div>
   </div>
 </div>
